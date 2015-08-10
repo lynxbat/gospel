@@ -76,6 +76,7 @@ func (t *Truths) List() {
 	fmt.Println("Truths")
 	for _, t := range collection {
 		fmt.Printf("\t%s\n", t.Key())
+		fmt.Printf("\t%s\n", t.Gather())
 	}
 
 }
