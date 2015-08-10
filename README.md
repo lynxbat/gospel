@@ -4,28 +4,20 @@ Gospel is a library for collecting details about a system. It is competely inspi
 
 ###Core goals
 
-* Fast execution
-* CLI and Go API
-* Extensible
-* Simple
+- Fast execution
+- CLI and Go API
+- Extensible
+- Simple
 
 Like Facter has `facts`, Gospel has `truths`.
-
 All `truths` are bits of truth about the system you are collecting from in the form of a key/value pair.
 
+###Terminology
 
-WIP
-
-###Modules
-
-* **Gather** - gathers truths and returns them through an Outputter
-* **Truth**
-  * packages that gather truths, buildtime separation by arch
-  * runtime folder(s) for extenteding truths via YAML or JSON
-* **Speak** - modules for printing, sending, saving truths
-  * JSON
-  * Terminal table
-  * YAML
+* **Gather** - an operation that retrieves a set of Truths from a system
+* **Witness**  - External executable that can be linked to return schema-matching Truths
+* **Truth** - a specific key/value bit of data
+* **Speak**  - the output of Gathering in a specific format
 
 ## Usage
 

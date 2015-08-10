@@ -3,11 +3,12 @@ package main
 import (
 	"fmt"
 
-	"github.com/lynxbat/gospel/truth"
+	"github.com/lynxbat/gospel/truths"
 )
 
 func main() {
 	fmt.Println("Gospel v0.0.1")
 
-	truth.ListTruths()
+	t := truths.New()
+	t.List()
 }
