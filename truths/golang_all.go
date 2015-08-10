@@ -6,7 +6,7 @@ import (
 
 func (t *Truths) TruthGolangVersion() (Truth, error) {
 	return &truth{
-		key:         "golang-version",
+		name:        "golang-version",
 		description: "The version of golang",
 		gather: func() interface{} {
 			return runtime.Version()
@@ -17,7 +17,7 @@ func (t *Truths) TruthGolangVersion() (Truth, error) {
 
 func (t *Truths) TruthGolangOS() (Truth, error) {
 	return &truth{
-		key:         "golang-os",
+		name:        "golang-os",
 		description: "The operation system golang detects",
 		gather: func() interface{} {
 			return runtime.GOOS
@@ -28,7 +28,7 @@ func (t *Truths) TruthGolangOS() (Truth, error) {
 
 func (t *Truths) TruthGolangArch() (Truth, error) {
 	return &truth{
-		key:         "golang-arch",
+		name:        "golang-arch",
 		description: "The architecture golang detects",
 		gather: func() interface{} {
 			return runtime.GOARCH

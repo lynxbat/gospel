@@ -13,28 +13,39 @@ const (
 
 // Truth provides an interface for truths
 type Truth interface {
-	Key() string
+	Name() string
 	Description() string
 	Tags() []string
 	Gather() interface{}
 }
 
+// A Truth which has been gathered and stores the truth value in Value()
+type GatheredTruth interface {
+	Truth
+	Value() interface{}
+}
+
 // Struct providing access to truths and the ability to bind to them
-type Truths struct{}
+type Truths struct {
+	coll map[string]Truth
+}
 
 func New() *Truths {
-	return &Truths{}
+	t := &Truths{}
+	t.load()
+	return t
 }
 
 type truth struct {
-	key         string
+	name        string
 	description string
 	tags        []string
 	gather      func() interface{}
+	value       interface{}
 }
 
-func (t *truth) Key() string {
-	return t.key
+func (t *truth) Name() string {
+	return t.name
 }
 
 func (t *truth) Description() string {
@@ -49,8 +60,12 @@ func (t *truth) Gather() interface{} {
 	return t.gather()
 }
 
-func (t *Truths) List() {
-	collection := make(map[string]Truth)
+func (t *truth) Value() interface{} {
+	return t.value
+}
+
+func (t *Truths) load() {
+	t.coll = make(map[string]Truth)
 	v := reflect.TypeOf(t)
 
 	for i := 0; i < v.NumMethod(); i++ {
@@ -64,7 +79,7 @@ func (t *Truths) List() {
 				m := method.Func.Interface().(func(*Truths) (Truth, error))
 				tr, err := m(t)
 				if err == nil {
-					collection[tr.Key()] = tr
+					t.coll[tr.Name()] = tr
 				}
 			} else {
 				// We cannot allow this.
@@ -72,11 +87,16 @@ func (t *Truths) List() {
 			}
 		}
 	}
+}
 
-	fmt.Println("Truths")
-	for _, t := range collection {
-		fmt.Printf("\t%s\n", t.Key())
-		fmt.Printf("\t%s\n", t.Gather())
+func (t *Truths) Gather() map[string]interface{} {
+	r := make(map[string]interface{})
+	for _, tr := range t.coll {
+		r[tr.Name()] = tr.Gather()
 	}
+	return r
+}
 
+func (t *Truths) List() map[string]Truth {
+	return t.coll
 }
