@@ -1,21 +1,38 @@
 package truths
 
+import (
+	"runtime"
+)
+
 func (t *Truths) TruthGolangVersion() (Truth, error) {
 	return &truth{
 		key:         "golang-version",
-		description: "Returns current version of golang detected",
-		gather:      goVersion,
+		description: "The version of golang",
+		gather: func() interface{} {
+			return runtime.Version()
+		},
+		tags: []string{"lang", "version", "golang"},
 	}, nil
 }
 
-func goVersion() interface{} {
-	return "v1"
+func (t *Truths) TruthGolangOS() (Truth, error) {
+	return &truth{
+		key:         "golang-os",
+		description: "The operation system golang detects",
+		gather: func() interface{} {
+			return runtime.GOOS
+		},
+		tags: []string{"lang", "os", "golang"},
+	}, nil
 }
 
-/*
-
-golang-version
-description
-tags [language, version, golang]
-
-*/
+func (t *Truths) TruthGolangArch() (Truth, error) {
+	return &truth{
+		key:         "golang-arch",
+		description: "The architecture golang detects",
+		gather: func() interface{} {
+			return runtime.GOARCH
+		},
+		tags: []string{"lang", "architecture", "golang"},
+	}, nil
+}
